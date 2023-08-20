@@ -285,3 +285,4 @@ Date: 14/8/2023 - Hour: 21:43:14 - Method: POST a cart
 Date: 14/8/2023 - Hour: 21:43:15 - Method: POST a product
 Date: 14/8/2023 - Hour: 21:45:08 - Method: POST a cart
 Date: 14/8/2023 - Hour: 21:45:09 - Method: POST a product
+Date: 20/8/2023 - Hour: 17:59:52 - Method: UPDATE a product

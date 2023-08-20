@@ -22,5 +22,15 @@ export class UserRepository{
         const email = user.email;
         return email;
     }
+
+    async getById(uid){
+        const user = await this.dao.getById(uid);
+        return user;
+    }
+
+    async update(uid, user){
+        const result = await this.dao.put(uid, user);
+        return user;
+    }
     
 }

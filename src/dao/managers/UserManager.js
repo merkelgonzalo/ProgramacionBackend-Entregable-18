@@ -33,4 +33,20 @@ export default class UserManager{
             console.log('Cannot get user by cart ID in manager with mongoose: '+error)
         }
     }
+    async getById(uid){
+        try {
+            const result = await this.model.findOne({_id: uid});
+            return result;
+        } catch (error) {
+            console.log('Cannot get user by ID in manager with mongoose: '+error)
+        }
+    }
+    async put(uid, user){
+        try {
+            const result = await this.model.updateOne({_id: uid}, user);
+            return result;
+        } catch (error) {
+            console.log('Cannot get user by ID in manager with mongoose: '+error)
+        }
+    }
 }
