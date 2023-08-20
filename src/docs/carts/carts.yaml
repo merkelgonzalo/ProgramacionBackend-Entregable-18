@@ -1,0 +1,288 @@
+paths:
+  /api/carts/:
+    get:
+      summary: Get all carts
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Carts were got correctly.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "500":
+          description: Internal server error.
+    post:
+      summary: Post a cart
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Cart was created correctly.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "500":
+          description: Internal server error.
+  /api/carts/{cid}:
+    get:
+      summary: Get a cart by ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid is the cart id that we want to get
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: The cart was got correctly.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "400":
+          description: ID not found.
+    put:
+      summary: Update all products from cart by ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid is the cart id that we want to update with an array of products
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateCart'
+      responses:
+        "200":
+          description: The cart was updated correctly.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "400":
+          description: ID not found.
+    delete:
+      summary: Delete all products by cart ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid is the cart id that we want to delete all products
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: The products from cart were deleted correctly.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "400":
+          description: ID not found.
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Purchase a cart by ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid is the cart id that we want to purchase
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: The cart was bought correctly.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "400":
+          description: ID not found.
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Add product in cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid is the cart id that we want to add product
+          schema:
+            $type: integer
+        - name: pid
+          in: path
+          required: true
+          description: pid is the product id that we want to add in cart
+          schema:
+            $type: integer
+      responses:
+        "200":
+          description: The product was added correctly in cart.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "400":
+          description: ID not found.
+  /api/carts/{cid}/products/{pid}:
+    delete:
+      summary: Delete a product by ID and cart ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid is the cart id that we want to delete a product
+          schema:
+            $type: integer
+        - name: pid
+          in: path
+          required: true
+          description: pid is the product id that we want to delete
+          schema:
+            $type: integer
+      responses:
+        "200":
+          description: The product from cart was deleted correctly.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "400":
+          description: ID not found.
+    put:
+      summary: Update a product quantity by ID and cart ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid is the cart id that we want to update a product
+          schema:
+            $type: integer
+        - name: pid
+          in: path
+          required: true
+          description: pid is the product id that we want to update quantity
+          schema:
+            $type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateQuantity'
+      responses:
+        "200":
+          description: The product from cart was updated correctly.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "400":
+          description: ID not found.
+
+components:
+  schemas:
+    Cart:
+      type: Object
+      properties:
+        _id:
+          type: ObjectId
+          description: autogenerated ID by mongo
+        products: 
+          type: array
+          description: array of products and quantity
+          items:
+            $ref: '#/components/schemas/CartItem'
+    Product:
+      type: Object
+      properties:
+        _id:
+          type: ObjectId
+          description: autogenerated ID by mongo
+        title: 
+          type: String
+          description: unique title
+        description:
+          type: String
+          description: description
+        price: 
+          type: Number
+          description: price
+        thumbnail:
+          type: String
+          description: profile picture
+        code: 
+          type: String
+          desciption: unique and autogenerated code
+        stock: 
+          type: Number
+          description: items amount
+        category: 
+          type: String
+          description: category
+        owner: 
+          type: ObjectId
+          description: product creator
+        status:
+          type: Boolean
+          description: availability
+    CartItem:
+      type: Object
+      properties:
+        product:
+          $ref: '#/components/schemas/Product'
+        quantity:
+          type: integer
+          description: The quantity of the product in the cart
+  requestBodies:
+      updateCart:
+        type: Object
+        properties:
+          products:
+            type: array
+            description: array of products and quantity
+      updateQuantity:
+        type: Object
+        properties:
+          quantity:
+            type: integer
+            description: quantity
