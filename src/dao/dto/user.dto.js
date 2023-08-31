@@ -12,3 +12,16 @@ export class GetUserDto{
         this.cart = userDB.cart;
     }
 }
+
+export class GetAllUsersDto{
+    constructor(usersDB){
+        const transformedUsers = usersDB.map(user => {
+            return {
+                name: user.first_name + " " + user.last_name,
+                email: user.email,
+                role: user.role
+            };
+        });
+        return transformedUsers;
+    }
+}

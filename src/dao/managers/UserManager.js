@@ -11,7 +11,7 @@ export default class UserManager{
 
     async get(){
         try {
-            const result = await this.model.find();;
+            const result = await this.model.find();
             return result;
         } catch (error) {
             console.log('Cannot get users in manager with mongoose: '+error)
